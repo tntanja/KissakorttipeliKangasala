@@ -1,0 +1,52 @@
+h1 {
+    color: deeppink;
+    text-align: center;
+    font-size: 2.5rem;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: italic;
+    text-shadow: 1px 1px 8px blueviolet;
+}
+
+.card{
+    width: 120px;
+    height: 200px;
+    border: 2px solid rgb(228, 18, 190);
+    border-radius: 8px;
+    box-shadow: 1px 1px 4px 1px rgb(80, 16, 176);
+    background-color: rgb(252, 175, 243);
+}
+
+.kortin-kuva {
+    border-radius: 8px 8px 0 0;
+    width: 120px;
+}
+
+.kortin-lista {
+    margin: 0;
+    padding: 0 8px;
+}
+
+.kortin-lista-item {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+.pelialue {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.playButton {
+    width: 80px;
+    height: 40px;
+    align-self: center;
+    font-size: larger;
+    font-weight: bold;
+    margin: 30px;
+    color: blueviolet;
+    border-radius: 8px;
+    border-color: rgb(228, 18, 190);
+    padding: 5px 5px;
+}
