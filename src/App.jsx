@@ -7,6 +7,7 @@ import { useState } from 'react';
 const getRandomValue = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
 const kortti = (index) => ({
+    id: crypto.randomUUID(),
     image: 'http://placekitten.com/120/100?image=' + index,
     ominaisuudet: [
         {name: 'cuteness', value: getRandomValue(3, 20)},
@@ -24,8 +25,19 @@ const puolivali = Math.ceil(korttipakka.length / 2);
 
 // jaetaan kortit pelaajalle ja vastustajalle
 function jaaKortit() {
-    player: korttipakka.slice(0, puolivali);
-    opponent: korttipakka.slice(puolivali)
+    shuffle(korttipakka);
+    return {
+        player: korttipakka.slice(0, puolivali),
+        opponent: korttipakka.slice(puolivali)
+    }
+}
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j] = array[j], array[i]];
+    }
+    return array;
 }
 
 export default function App(){
@@ -61,8 +73,14 @@ export default function App(){
             <div className='pelialue'>
 
                 <div>
-                    <p> Pelaajan kortit </p>
-                    <Card card={kortit.player[0]}/>
+                <p> Pelaajan kortit </p>
+                    <ul className='korttirivi'>
+                    {kortit.player.map((kortti) =>
+                        <li className='korttirivi-player' key={kortti.id}> 
+                            <Card card={kortti}/>
+                        </li>
+                    )}
+                    </ul>
                 </div>
 
                 <p> { result } </p>
@@ -70,7 +88,13 @@ export default function App(){
                 
                 <div>
                     <p> Vastustajan kortit </p>
-                    <Card card={kortit.opponent[0]}/>
+                    <ul className='korttirivi opponent'>
+                    {kortit.opponent.map((kortti) =>
+                        <li className='korttirivi-opponent' key={kortti.id}> 
+                            <Card card={kortti}/>
+                        </li>
+                    )}
+                    </ul>
                 </div>
 
             </div>

@@ -50,3 +50,20 @@ h1 {
     border-color: rgb(228, 18, 190);
     padding: 5px 5px;
 }
+
+.korttirivi {
+    display: flex;
+}
+
+.korttirivi-player {
+    margin-left: calc(6vw - 150px);
+}
+
+.korttirivi-opponent {
+    margin-right: calc(6vw - 150px);
+    direction: ltr;
+}
+
+.korttirivi.opponent {
+    direction: rtl;
+}
