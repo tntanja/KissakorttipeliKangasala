@@ -38,6 +38,12 @@ h1 {
     gap: 10px;
 }
 
+.button-area {
+    text-align: center;
+    align-self: center;
+    min-width: 20vw;
+}
+
 .playButton {
     width: 80px;
     height: 40px;
@@ -53,6 +59,7 @@ h1 {
 
 .korttirivi {
     display: flex;
+    flex-direction: row-reverse;
 }
 
 .korttirivi-player {

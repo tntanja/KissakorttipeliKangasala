@@ -2,6 +2,7 @@ import './App.css';
 import Card from './components/Card';
 
 import { useState } from 'react';
+import PlayButton from './components/PlayButton';
 
 
 const getRandomValue = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
@@ -44,10 +45,15 @@ export default function App(){
     
     const [result, setResult] = useState('');
     const [kortit, setCards] = useState(jaaKortit);
+    const [gameState, setGameState] = useState('play');
 
     // const playerCard = kortti[0];
     // const opponentCard = kortti[0];
     
+    if (gameState === 'play' && (!kortit.player.length || !kortit.opponent.length)) {
+        setGameState('gameover');
+    }
+
     function compareCards() {
         //console.log('Button clicked!');
 
@@ -65,6 +71,42 @@ export default function App(){
 
         // tulostetaan tulos consoleen
         console.log(result);
+        setGameState('result')
+    }
+
+    function nextRound() {
+        setCards (korttipakka => {
+            const pelatutKortit = [{...korttipakka.player[0]}, {...korttipakka.opponent[0]}];
+
+            const player = korttipakka.player.slice(1);
+            const opponent = korttipakka.opponent.slice(1);
+
+            if (result == 'tasapeli') {
+                return {
+                    player,
+                    opponent
+                };
+            }
+
+            if (result === 'voitto') {
+                return {
+                    player: [...player, ...pelatutKortit],
+                    opponent
+                };
+            }
+
+            if (result === 'häviö') {
+                return {
+                    player,
+                    opponent: [...opponent, ...pelatutKortit]
+                };
+            }
+
+            return korttipakka;
+        });
+
+        setGameState('play');
+        setResult('');
     }
     
     return (
@@ -75,23 +117,39 @@ export default function App(){
                 <div>
                 <p> Pelaajan kortit </p>
                     <ul className='korttirivi'>
-                    {kortit.player.map((kortti) =>
+                    {kortit.player.map((kortti, index) =>
                         <li className='korttirivi-player' key={kortti.id}> 
-                            <Card card={kortti}/>
+                            <Card card = {index === 0 ? kortti : null}/>
                         </li>
                     )}
                     </ul>
                 </div>
 
-                <p> { result } </p>
-                <button onClick={compareCards} type="button" className='playButton'> Vertaile </button>
+                <div className='button-area'>
+                    <p> { result || 'Press the button'} </p>
+
+                    {gameState === 'gameover' && (
+                        <div>
+                            <h3> GAME OVER! </h3>
+                        </div>
+                    )}
+
+                    {gameState === 'play' ? (
+                        <PlayButton text={'Play'} handleClick={compareCards} />
+                    ) : (
+                        <PlayButton text={'Next'} handleClick={nextRound} />
+                    )}
+
+                </div>
+                
+                
                 
                 <div>
                     <p> Vastustajan kortit </p>
                     <ul className='korttirivi opponent'>
-                    {kortit.opponent.map((kortti) =>
+                    {kortit.opponent.map((kortti, index) =>
                         <li className='korttirivi-opponent' key={kortti.id}> 
-                            <Card card={kortti}/>
+                            <Card card={index === 0 ? kortti : null}/>
                         </li>
                     )}
                     </ul>

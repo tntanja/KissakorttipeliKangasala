@@ -1,6 +1,8 @@
 import '../App.css';
 
 export default function Card({ card }){
+    if (!card) return <div className='card' />;
+    
     return (
         <div className="card">
             <img className="kortin-kuva" src={card.image} />
